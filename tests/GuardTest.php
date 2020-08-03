@@ -38,4 +38,24 @@ class GuardTest extends \Orchestra\Testbench\TestCase
         $this->withSession(['verified_age' => null])->get('/guard')->assertStatus(403);
         $this->withSession(['verified_age' => false])->get('/guard')->assertStatus(403);
     }
+
+    /**
+     * @test
+     * @dataProvider crawlerAgentsProvider
+     */
+    public function it_authorizes_crawlers($agent)
+    {
+        $this->get('/guard', ['HTTP_USER_AGENT' => $agent])->assertOk();
+    }
+
+    public function crawlerAgentsProvider()
+    {
+        return [
+            ['Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'],
+            ['Mozilla/5.0 (compatible; Bingbot/2.0; +http://www.bing.com/bingbot.htm)'],
+            ['Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)'],
+            ['DuckDuckBot/1.0; (+http://duckduckgo.com/duckduckbot.html)'],
+            ['facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)'],
+        ];
+    }
 }

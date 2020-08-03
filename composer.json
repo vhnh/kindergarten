@@ -26,7 +26,8 @@
         }
     },
     "require": {
-        "php": "^7.2.5"
+        "php": "^7.2.5",
+        "ua-parser/uap-php": "^3.9"
     },
     "require-dev": {
         "orchestra/testbench": "^5.3"
